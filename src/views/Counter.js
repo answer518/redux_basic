@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import store from '../Store.js';
 import * as Actions from '../Actions.js';
@@ -58,7 +59,7 @@ class Counter extends Component {
   render() {
     const value = this.state.value;
     const {caption} = this.props;
-console.log('caption:' + caption)
+
     return (
       <div>
         <button style={buttonStyle} onClick={this.onIncrement}>+</button>
