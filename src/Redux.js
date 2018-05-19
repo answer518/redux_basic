@@ -1,6 +1,15 @@
 
-const createStore = (reducer, initValues) => {
+const createStore = (reducer, initValues, enhancer) => {
     let state = { ...initValues };
+
+    if (typeof enhancer !== 'undefined') {
+        if (typeof enhancer !== 'function') {
+            throw new Error('Expected the enhancer to be a function.')
+        }
+        
+        return enhancer(createStore)(reducer, state)
+    }
+
 
     const dispatch = (action) => {
         // 计算出新的state
@@ -36,4 +45,27 @@ const createStore = (reducer, initValues) => {
     }
 }
 
-export { createStore };
+/**
+ * 处理中间件
+ * @param {*} middleware 
+ */
+const applyMiddleware = (...middlewares) => {
+    return createStore => (...args) => {
+        middlewares = middlewares.slice()
+        middlewares.reverse()
+        const store = createStore(...args);
+
+        let dispatch = store.dispatch
+        // 在每一个 middleware 中变换 dispatch 方法。
+        middlewares.forEach(middleware =>
+            dispatch = middleware(store)(dispatch)
+        )
+
+        return {
+            ...store,
+            dispatch
+        }
+    }
+}
+
+export { createStore, applyMiddleware };
