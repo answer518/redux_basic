@@ -13,3 +13,14 @@ export const decrement = (counterCaption) => {
         counterCaption: counterCaption
     };
 };
+
+export const incrementAsyn = (counterCaption) => {
+    return (dispatch, getState) => {
+        setTimeout(() => {
+            dispatch({
+                type: ActionTypes.INCREMENT,
+                counterCaption: counterCaption
+            })
+        }, 3000)
+    }
+}
