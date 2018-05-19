@@ -27,7 +27,8 @@ class Counter extends Component {
   }
 
   onIncrement() {
-    store.dispatch(Actions.increment(this.props.caption));
+    // store.dispatch(Actions.increment(this.props.caption));
+    store.dispatch(Actions.incrementAsyn(this.props.caption));
   }
 
   onDecrement() {

@@ -6,7 +6,7 @@ const createStore = (reducer, initValues, enhancer) => {
         if (typeof enhancer !== 'function') {
             throw new Error('Expected the enhancer to be a function.')
         }
-        
+
         return enhancer(createStore)(reducer, state)
     }
 
@@ -57,13 +57,13 @@ const applyMiddleware = (...middlewares) => {
 
         let dispatch = store.dispatch
         // 在每一个 middleware 中变换 dispatch 方法。
-        middlewares.forEach(middleware =>
+        middlewares.forEach((middleware) => {
             dispatch = middleware(store)(dispatch)
-        )
-
+        })
+        
         return {
             ...store,
-            dispatch
+            dispatch // 中间件处理过的dispatch覆盖原来的dispatch
         }
     }
 }
